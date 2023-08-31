@@ -2,8 +2,10 @@ import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google'
+import { ThemeProvider } from "@/components/providers"
+import { cn } from '@/lib/utils'
 
-const open_sans = Open_Sans({ subsets: ['latin'] })
+const font = Open_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Team Chat application',
@@ -18,7 +20,23 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={open_sans.className}>{children}</body>
+        <body className={
+          cn(
+            font.className,
+            'bg-white dark:bg-[#313338]'
+          )
+        }
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            // forcedTheme="dark"
+            enableSystem={false}
+            storageKey='discord-theme'
+          >
+            {children}
+          </ThemeProvider>
+        </body>
       </html>
     </ClerkProvider>
   )
