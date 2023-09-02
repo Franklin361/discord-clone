@@ -26,6 +26,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { useEffect, useState } from 'react';
+import { FileUpload } from '../file-upload';
 
 const schema = z.object({
   name: z.string().min(1, { message: 'Server name is required!' }),
@@ -62,7 +63,7 @@ const InitialModal = () => {
 
   return (
     <>
-      <Dialog>
+      <Dialog open >
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
           <DialogHeader className='pt-8 px-6'>
             <DialogTitle className='text-2xl text-center font-bold'>Customize your server</DialogTitle>
@@ -71,14 +72,28 @@ const InitialModal = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <Form {...form}>
+          <Form {...form} >
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className='space-y-8'
             >
               <div className='space-y-8 px-6'>
                 <div className='flex justify-center items-center'>
-                  IMAGE UPLOAD
+                  <FormField
+                    control={form.control}
+                    name='imageUrl'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <FileUpload
+                            endpoint='serverImage'
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 <FormField
