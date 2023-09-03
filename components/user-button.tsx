@@ -10,7 +10,10 @@ export const UserButtonProfile = () => {
     <UserButton
       afterSignOutUrl="/"
       appearance={{
-        baseTheme: theme === 'dark' ? dark : undefined
+        baseTheme: theme === 'dark' ? dark : undefined,
+        elements: {
+          avatarBox: 'h-[48px] w-[48px] '
+        }
       }}
     />
   )
