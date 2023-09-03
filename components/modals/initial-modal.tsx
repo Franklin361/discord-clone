@@ -1,32 +1,32 @@
 "use client";
 
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { Button } from "@/components/ui/button"
+import axios from 'axios'
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+  DialogTitle
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+  FormMessage
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { useEffect, useState } from 'react';
 import { FileUpload } from '../file-upload';
+import { useRouter } from 'next/navigation';
 
 const schema = z.object({
   name: z.string().min(1, { message: 'Server name is required!' }),
@@ -39,6 +39,8 @@ const InitialModal = () => {
 
   // hydratation erros fix 
   const [isMounted, setisMounted] = useState(false)
+
+  const router = useRouter()
 
   useEffect(() => {
     setisMounted(true)
@@ -56,7 +58,16 @@ const InitialModal = () => {
   const isLoading = form.formState.isSubmitting
 
   const onSubmit = async (values: Form) => {
-    console.log(values)
+    try {
+
+      await axios.post('/api/servers', values);
+      form.reset();
+      router.refresh();
+      window.location.reload();
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   if (!isMounted) return null
