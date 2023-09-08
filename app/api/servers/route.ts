@@ -22,9 +22,9 @@ export async function POST( req: NextRequest )  {
         inviteCode: uuidv4(),
         imageUrl,
         name,
-        chanels: {
+        channels: {
           create: [
-            { name: 'general', profileId: current_profile.id }
+            { name: 'general', profileId: current_profile.id, }
           ]
         },
         members: {

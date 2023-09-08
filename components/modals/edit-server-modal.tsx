@@ -48,8 +48,8 @@ export const EditServerModal = () => {
   const form = useForm<Form>({
     resolver: zodResolver(schema as any),
     defaultValues: {
-      name: '',
-      imageUrl: ''
+      name: server?.imageUrl || '',
+      imageUrl: server?.name || ''
     }
   })
 
@@ -78,14 +78,9 @@ export const EditServerModal = () => {
 
   const isModalOpen = isOpen && type === 'edit-server'
 
-  const handleCloseModal = () => {
-    form.reset()
-    onClose()
-  }
-
   return (
     <>
-      <Dialog open={isModalOpen} onOpenChange={handleCloseModal}>
+      <Dialog open={isModalOpen} onOpenChange={onClose}>
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
           <DialogHeader className='pt-8 px-6'>
             <DialogTitle className='text-2xl text-center font-bold'>Edit {server?.name} server</DialogTitle>

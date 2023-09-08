@@ -1,7 +1,7 @@
 import { currentProfile } from '@/lib/current-profile'
 import { db } from '@/lib/db'
 import { redirectToSignIn } from '@clerk/nextjs'
-import { ChanelType } from '@prisma/client'
+import { ChannelType } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { ServerHeader } from './server-header'
 
@@ -20,7 +20,7 @@ export const ServerSidebar = async ({ serverId }: Props) => {
       id: serverId
     },
     include: {
-      chanels: {
+      channels: {
         orderBy: {
           createdAt: 'asc'
         }
@@ -36,9 +36,9 @@ export const ServerSidebar = async ({ serverId }: Props) => {
     }
   })
 
-  const textChannels = server?.chanels.filter(channel => channel.type === ChanelType.TEXT)
-  const audioChannels = server?.chanels.filter(channel => channel.type === ChanelType.AUDIO)
-  const videoChannels = server?.chanels.filter(channel => channel.type === ChanelType.VIDEO)
+  const textChannels = server?.channels.filter(channel => channel.type === ChannelType.TEXT)
+  const audioChannels = server?.channels.filter(channel => channel.type === ChannelType.AUDIO)
+  const videoChannels = server?.channels.filter(channel => channel.type === ChannelType.VIDEO)
 
   const members = server?.members.filter(member => member.profileId !== current_profile.id)
 
