@@ -28,6 +28,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { ChannelType } from '@prisma/client';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import qs from 'query-string';
+import { useEffect } from 'react';
 
 const schema = z.object({
   name: z.string().min(1, { message: 'Server name is required!' }).refine(name => name !== 'general', { message: 'Channel name cannot be "general"' }),
@@ -38,7 +39,8 @@ type Form = z.infer<typeof schema>;
 
 export const CreateChannelModal = () => {
 
-  const { isOpen, onClose, type } = useModal()
+  const { isOpen, onClose, type, data } = useModal()
+  const { channelType } = data
 
   const router = useRouter()
   const params = useParams()
@@ -52,6 +54,15 @@ export const CreateChannelModal = () => {
   })
 
   const isLoading = form.formState.isSubmitting
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue('type', channelType)
+    } else {
+      form.setValue('type', ChannelType.TEXT)
+    }
+  }, [channelType, form])
+
 
   const onSubmit = async (values: Form) => {
     try {
