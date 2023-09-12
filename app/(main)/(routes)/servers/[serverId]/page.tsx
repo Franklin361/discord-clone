@@ -41,7 +41,7 @@ const SingleServerPage = async ({ params }: Props) => {
   if (initialChannel?.name !== 'general') return null
 
 
-  return redirect(`servers/${params.serverId}/channels/${initialChannel?.id}`)
+  return redirect(`/servers/${params.serverId}/channels/${initialChannel?.id}`)
 }
 export default SingleServerPage
 
