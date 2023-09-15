@@ -9,6 +9,8 @@ import { Input } from '../ui/input';
 import axios from 'axios';
 import qs from 'query-string';
 import { useModal } from '@/hooks/use-modal-store';
+import { EmojiPicker } from '../emoji-picker';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   apiUrl: string
@@ -31,6 +33,7 @@ export const ChatInput = ({
 }: Props) => {
 
   const { onOpen } = useModal()
+  const router = useRouter()
 
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema as any),
@@ -49,8 +52,10 @@ export const ChatInput = ({
 
       await axios.post(url, values)
 
+
       form.reset()
       form.setFocus('content')
+      router.refresh()
 
     } catch (error) {
       console.log(error)
@@ -83,7 +88,9 @@ export const ChatInput = ({
                     {...field}
                   />
                   <div className='absolute top-7 right-8'>
-                    <Smile />
+                    <EmojiPicker
+                      onChange={(e: string) => field.onChange(`${field.value} ${e}`)}
+                    />
                   </div>
                 </div>
               </FormControl>
