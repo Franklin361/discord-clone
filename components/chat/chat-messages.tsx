@@ -1,5 +1,6 @@
 "use client";
 
+import { format } from 'date-fns'
 import { Member, Message, Profile } from '@prisma/client';
 import { ChatWelcome } from './chat-welcome';
 import { useChatQuery } from '@/hooks/use-chat-query';
@@ -20,8 +21,9 @@ interface Props {
   type: 'channel' | 'conversarion'
 }
 
-export const ChatMessages = (props: Props) => {
+const DATE_FORMAT = 'd MMM yyyy, HH:mm'
 
+export const ChatMessages = (props: Props) => {
 
   const queryKey = `chat:${props.chatId}`
 
@@ -62,7 +64,16 @@ export const ChatMessages = (props: Props) => {
                 group.items.map((msg: MessageWithMemberWithProfile) => (
                   <ChatItem
                     key={msg.id}
-                    {...msg}
+                    content={msg.content}
+                    currentMember={props.member}
+                    deleted={msg.deleted}
+                    fileUrl={msg.fileUrl}
+                    id={msg.id}
+                    isUpdated={msg.createdAt !== msg.updatedAt}
+                    member={msg.member}
+                    socketQuery={props.socketQuery}
+                    socketUrl={props.socketUrl}
+                    timestamp={format(new Date(msg.createdAt), DATE_FORMAT)}
                   />
                 ))
               }
