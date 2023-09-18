@@ -3,7 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import qs from 'query-string';
 
 interface Props {
-  paramKey: 'channelId' | 'conversarionId'
+  paramKey: 'channelId' | 'conversationId'
   apiUrl: string
   queryKey: string
   paramValue: string

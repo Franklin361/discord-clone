@@ -19,7 +19,7 @@ interface Props {
   apiUrl: string
   socketQuery: Record<string, any>
   paramValue: string
-  paramKey: 'channelId' | 'conversarionId'
+  paramKey: 'channelId' | 'conversationId'
   type: 'channel' | 'conversarion'
 }
 
